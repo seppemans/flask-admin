@@ -191,16 +191,14 @@ class InlineModelConverter(InlineModelConverterBase):
 
         if refs:
             for name, opts in iteritems(refs):
-                new_name = '%s.%s' % (info.model.__name__.lower(), name)
-
                 loader = None
-                if isinstance(opts, (list, tuple)):
-                    loader = create_ajax_loader(info.model, new_name, name, opts)
+                if isinstance(opts, dict):
+                    loader = create_ajax_loader(info.model, name, name, opts)
                 else:
                     loader = opts
 
                 result[name] = loader
-                self.view._form_ajax_refs[new_name] = loader
+                self.view._form_ajax_refs[name] = loader
 
         return result
 
